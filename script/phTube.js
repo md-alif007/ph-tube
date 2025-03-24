@@ -39,7 +39,7 @@ function displayCatagories(catagories) {
         const catagoryDiv = document.createElement('div');
         catagoryDiv.innerHTML = `
 
-        <button onclick="loadCategoryVideos( ${cat.category_id} )" class="btn btn-sm hover:bg-red-500 hover:text-white">${cat.category}</button>
+        <button id =" btn-${cat.category_id} " onclick="loadCategoryVideos( ${cat.category_id} )" class="btn btn-sm hover:bg-red-500 hover:text-white">${cat.category}</button>
         
         `;
 
@@ -69,6 +69,7 @@ function displayCatagories(catagories) {
     //     },
     //     "description": "'Midnight Serenade' by Noah Walker is a soulful journey into the depths of the night, capturing the mystique and allure of a moonlit evening. With 543K views, this song brings together tender melodies and evocative lyrics, making it a favorite among listeners seeking a contemplative yet uplifting experience. Immerse yourself in this musical masterpiece and feel the calm embrace of the night."
     // }
+
 
 // creating the card and displaying it 
 const displayVideos = (videos) => {
@@ -137,20 +138,26 @@ const displayVideos = (videos) => {
 
 };
 
+
 // getting every type of categories by their id
 const loadCategoryVideos = (id) => {
     // console.log(id);
 
     // creat a url dynamically for different buttons
     const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
+    console.log(url);
 
     // fetch the url
     fetch(url)
         .then(res => res.json())
-        .then(data => displayVideos(data.category));
+        .then(data => {
 
+            const clickedButton = document.getElementById(`btn-${id}`);
+            console.log(clickedButton);
+            
 
-
+            displayVideos(data.category);
+        });
 }
 
 loadCatagories();
