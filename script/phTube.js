@@ -32,6 +32,20 @@ function loadVideos() {
 
 };
 
+const loadVideoDetails = (videoId) => {
+    console.log(videoId);
+    const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+
+    fetch(url)
+    .then(res => res.json())
+    .then(data => displayVideoDetails(data.video));
+}
+
+const displayVideoDetails = (video) => {
+    console.log(video);
+    document.getElementById('video_details').showModal();
+}
+
 // catagories
 // {
 //     "category_id": "1001",
@@ -138,6 +152,8 @@ const displayVideos = (videos) => {
                 </div>
 
             </div>
+
+            <button onclick="loadVideoDetails('${video.video_id}')" class="btn btn-active btn-info">Show Details</button>
 
         </div>
         
