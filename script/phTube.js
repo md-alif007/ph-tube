@@ -1,3 +1,11 @@
+function removeActiveClass() {
+    const activebtns = document.getElementsByClassName('active');
+
+    for (let btn of activebtns) {
+        btn.classList.remove('active');
+    }
+}
+
 function loadCatagories() {
 
     // 1.fetch the data
@@ -16,7 +24,11 @@ function loadVideos() {
 
     fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
         .then(res => res.json())
-        .then(data => displayVideos(data.videos));
+        .then(data => {
+            removeActiveClass();
+            document.getElementById('btn-all').classList.add('active');
+            displayVideos(data.videos);
+        });
 
 };
 
@@ -39,7 +51,7 @@ function displayCatagories(catagories) {
         const catagoryDiv = document.createElement('div');
         catagoryDiv.innerHTML = `
 
-        <button id =" btn-${cat.category_id} " onclick="loadCategoryVideos( ${cat.category_id} )" class="btn btn-sm hover:bg-red-500 hover:text-white">${cat.category}</button>
+        <button id ="btn-${cat.category_id}" onclick="loadCategoryVideos(${cat.category_id})" class="btn btn-sm hover:bg-red-500 hover:text-white">${cat.category}</button>
         
         `;
 
@@ -51,24 +63,24 @@ function displayCatagories(catagories) {
 };
 
 
-    // {
-    //     "category_id": "1001",
-    //     "video_id": "aaab",
-    //     "thumbnail": "https://i.ibb.co/QPNzYVy/moonlight.jpg",
-    //     "title": "Midnight Serenade",
-    //     "authors": [
-    //         {
-    //             "profile_picture": "https://i.ibb.co/fDbPv7h/Noha.jpg",
-    //             "profile_name": "Noah Walker",
-    //             "verified": false
-    //         }
-    //     ],
-    //     "others": {
-    //         "views": "543K",
-    //         "posted_date": ""
-    //     },
-    //     "description": "'Midnight Serenade' by Noah Walker is a soulful journey into the depths of the night, capturing the mystique and allure of a moonlit evening. With 543K views, this song brings together tender melodies and evocative lyrics, making it a favorite among listeners seeking a contemplative yet uplifting experience. Immerse yourself in this musical masterpiece and feel the calm embrace of the night."
-    // }
+// {
+//     "category_id": "1001",
+//     "video_id": "aaab",
+//     "thumbnail": "https://i.ibb.co/QPNzYVy/moonlight.jpg",
+//     "title": "Midnight Serenade",
+//     "authors": [
+//         {
+//             "profile_picture": "https://i.ibb.co/fDbPv7h/Noha.jpg",
+//             "profile_name": "Noah Walker",
+//             "verified": false
+//         }
+//     ],
+//     "others": {
+//         "views": "543K",
+//         "posted_date": ""
+//     },
+//     "description": "'Midnight Serenade' by Noah Walker is a soulful journey into the depths of the night, capturing the mystique and allure of a moonlit evening. With 543K views, this song brings together tender melodies and evocative lyrics, making it a favorite among listeners seeking a contemplative yet uplifting experience. Immerse yourself in this musical masterpiece and feel the calm embrace of the night."
+// }
 
 
 // creating the card and displaying it 
@@ -145,16 +157,17 @@ const loadCategoryVideos = (id) => {
 
     // creat a url dynamically for different buttons
     const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
+
     console.log(url);
 
     // fetch the url
     fetch(url)
         .then(res => res.json())
         .then(data => {
-
+            removeActiveClass();
             const clickedButton = document.getElementById(`btn-${id}`);
-            console.log(clickedButton);
-            
+            clickedButton.classList.add('active');
+
 
             displayVideos(data.category);
         });
